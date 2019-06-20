@@ -4,9 +4,10 @@ import Audio from './Audio'
 
 const SynthPad = () => {
 
-    //set state to represent initial value of masterGainNode
+    // set state to represent initial value of masterGainNode
     const [masterGainValue, setMasterGainValue] = useState(0)
 
+    // initialize state for OscillatorNodes
     const [oscillatorNodes, setOscillatorNodes] = useState([])
 
     // initialize state for selected oscillator index
@@ -20,24 +21,27 @@ const SynthPad = () => {
         Audio.masterGainNode.gain.setValueAtTime(0, Audio.context.currentTime)
     }
 
-    //initialize masterGainNode on first render
+    // initialize masterGainNode on first render
     useEffect(initializeMasterGain, [])
 
     const changeMasterVolume = (e) => {
-
         setMasterGainValue(e.target.value/100)
     }
 
     const addOscillatorNode = () => {
-
+        // Create a GainNode for the oscillator, set it to 0 volume and connect it to masterGainNode
         const oscillatorGainNode = Audio.context.createGain()
         oscillatorGainNode.gain.setValueAtTime(0, Audio.context.currentTime)
         oscillatorGainNode.connect(Audio.masterGainNode)
 
+        // Create OscillatorNode, connect it to its GainNode, and make it start playing.
         const oscillatorNode = Audio.context.createOscillator()
         oscillatorNode.connect(oscillatorGainNode)
         oscillatorNode.start()
 
+        // Store the nodes along with their values in state.
+        // Note: When an oscillator is created, frequency is set to 440,
+        // and type is set to 'sine' by default.
         const oscillatorNodeValues = {
             oscillatorNode: oscillatorNode,
             oscillatorGainNode: oscillatorGainNode,

@@ -1,20 +1,26 @@
 import React, {useState, useEffect} from 'react';
-import './App.css';
+import './SynthPad.css';
 import Audio from './Audio'
 
-const App = () => {
+const SynthPad = () => {
 
+    //set state to represent initial value of masterGainNode
     const [masterGainValue, setMasterGainValue] = useState(0)
+
     const [oscillatorNodes, setOscillatorNodes] = useState([])
 
     // initialize state for selected oscillator index
     const [selectedOscillatorNodeIndex, setSelectedOscillatorNodeIndex] = useState(-1)
 
     const initializeMasterGain = () => {
+        // Connect the masterGainNode to the audio context to allow it to output sound.
         Audio.masterGainNode.connect(Audio.context.destination)
+
+        // Set masterGain Value to 0
         Audio.masterGainNode.gain.setValueAtTime(0, Audio.context.currentTime)
     }
 
+    //initialize masterGainNode on first render
     useEffect(initializeMasterGain, [])
 
     const changeMasterVolume = (e) => {
@@ -177,4 +183,4 @@ const App = () => {
 
 }
 
-export default App;
+export default SynthPad;

@@ -111,7 +111,6 @@ const SynthPad = () => {
 
     // Fade out the MasterGainNode gain value to 0 on mouseDown by .001 seconds
     const pause = () => {
-        console.log(Audio.masterGainNode.gain.value)
         Audio.masterGainNode.gain.setTargetAtTime(0, Audio.context.currentTime, 0.001)
     }
 
